@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const useStore = create(
   persist(
     (set) => ({
-      cart: {}, // { productId: quantity }
+      cart: {}, 
       setCart: (cart) => set({ cart }),
       addToCart: (productId) =>
         set((state) => ({
@@ -16,12 +16,12 @@ const useStore = create(
         })),
       clearCart: () => set({ cart: {} }),
 
-      order: null, // Store placed order here
+      order: null, 
       setOrder: (order) => set({ order }),
     }),
     {
-      name: 'delivery-app-storage', // unique storage key
-      getStorage: () => AsyncStorage, // adapt for React Native
+      name: 'delivery-app-storage', 
+      getStorage: () => AsyncStorage, 
     }
   )
 );

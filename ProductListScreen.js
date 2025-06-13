@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import useStore from './store'; 
+import { useNavigation } from '@react-navigation/native';
 
 const products = [
   { id: '1', name: 'Pizza', price: 12.99 },
@@ -16,10 +17,13 @@ const products = [
   { id: '3', name: 'Sushi', price: 15.49 },
 ];
 
+
 const ProductListScreen = () => {
   const cart = useStore((state) => state.cart);
   const addToCart = useStore((state) => state.addToCart);
   const clearCart = useStore((state) => state.clearCart);
+  const setOrder = useStore((state) => state.setOrder);
+  const navigation = useNavigation();
 
   const placeOrder = () => {
     const items = Object.entries(cart).map(([id, qty]) => {
@@ -32,14 +36,26 @@ const ProductListScreen = () => {
       return;
     }
 
+    // Save order in global state
+    setOrder(items);
+    clearCart();
+
+    // Optional: Show alert before navigating
     Alert.alert(
       'Order Placed',
       items
-        .map((item) => `${item.name} x${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`)
+        .map(
+          (item) =>
+            `${item.name} x${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`
+        )
         .join('\n'),
+      [
+        {
+          text: 'Track Order',
+          onPress: () => navigation.navigate('TrackOrder'),
+        },
+      ]
     );
-
-    clearCart();
   };
 
   const renderItem = ({ item }) => (
