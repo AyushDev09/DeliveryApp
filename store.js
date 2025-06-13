@@ -1,11 +1,11 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useStore = create(
   persist(
     (set) => ({
-      cart: {}, 
+      cart: {},
       setCart: (cart) => set({ cart }),
       addToCart: (productId) =>
         set((state) => ({
@@ -16,12 +16,12 @@ const useStore = create(
         })),
       clearCart: () => set({ cart: {} }),
 
-      order: null, 
+      order: null,
       setOrder: (order) => set({ order }),
     }),
     {
-      name: 'delivery-app-storage', 
-      getStorage: () => AsyncStorage, 
+      name: 'delivery-app-storage',
+      storage: createJSONStorage(() => AsyncStorage), 
     }
   )
 );

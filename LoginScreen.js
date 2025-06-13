@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,12 +19,14 @@ const LoginScreen = () => {
       Alert.alert('Error', 'Please enter both email and password');
       return;
     }
+
     setLoading(true);
     auth()
       .signInWithEmailAndPassword(email.trim(), password)
       .then(userCredential => {
         setLoading(false);
         Alert.alert('Success', `Welcome back, ${userCredential.user.email}`);
+        navigation.replace('Products'); // Navigate after login
       })
       .catch(error => {
         setLoading(false);
@@ -45,13 +47,14 @@ const LoginScreen = () => {
       Alert.alert('Error', 'Please enter both email and password');
       return;
     }
+
     setLoading(true);
     auth()
       .createUserWithEmailAndPassword(email.trim(), password)
       .then(userCredential => {
         setLoading(false);
         Alert.alert('Success', `Account created for ${userCredential.user.email}`);
-        // Optionally: auto-login or navigate somewhere
+        navigation.replace('Products'); // Navigate after signup
       })
       .catch(error => {
         setLoading(false);
@@ -97,15 +100,23 @@ const LoginScreen = () => {
         onPress={handleLogin}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Log In'}</Text>
+        <Text style={styles.buttonText}>
+          {loading ? 'Logging in...' : 'Log In'}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: '#34a853', marginTop: 15 }, loading && { backgroundColor: '#999' }]}
+        style={[
+          styles.button,
+          { backgroundColor: '#34a853', marginTop: 15 },
+          loading && { backgroundColor: '#999' },
+        ]}
         onPress={handleSignUp}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>{loading ? 'Please wait...' : 'Sign Up'}</Text>
+        <Text style={styles.buttonText}>
+          {loading ? 'Please wait...' : 'Sign Up'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -136,6 +147,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     marginBottom: 20,
+    color: '#fff',
   },
   button: {
     backgroundColor: '#4e8ef7',

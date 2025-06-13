@@ -1,41 +1,25 @@
-import { PermissionsAndroid, Platform, Alert, Linking } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 export async function requestLocationPermissions() {
   if (Platform.OS === 'android') {
-    const fineLocation = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location Permission',
-        message: 'We need access to your location.',
-        buttonPositive: 'OK',
-      }
+    const hasFineLocation = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
     );
 
-    if (fineLocation !== PermissionsAndroid.RESULTS.GRANTED) return false;
-
-    if (Platform.Version >= 29) {
-      const backgroundLocation = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION,
+    if (!hasFineLocation) {
+      const fineLocation = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Background Location Permission',
-          message: 'We need access to your location in the background.',
+          title: 'Location Permission',
+          message: 'We need access to your location.',
           buttonPositive: 'OK',
         }
       );
 
-      if (backgroundLocation !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert(
-          'Permission Required',
-          'To track delivery in background, allow location "All the time".',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Open Settings', onPress: () => Linking.openSettings() },
-          ]
-        );
+      if (fineLocation !== PermissionsAndroid.RESULTS.GRANTED) {
         return false;
       }
     }
   }
-
   return true;
 }

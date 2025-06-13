@@ -3,8 +3,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
 
 
     <application
@@ -16,17 +18,18 @@
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
 
-      <service android:name="com.agontuk.RNFusedLocation.LocationTaskService" android:foregroundServiceType="location" />
-      
-      <service
-        android:name=".YourForegroundService"
-        android:enabled="true"
-        android:exported="false"
-        android:foregroundServiceType="location" />
+      <receiver android:exported="true" android:name="expo.modules.notifications.notifications.receivers.NotificationReceiver" />
+      <receiver android:exported="true" android:name="expo.modules.notifications.notifications.receivers.NotificationResponseReceiver">
+        <intent-filter>
+          <action android:name="expo.modules.notifications.NOTIFICATION_RESPONSE" />
+        </intent-filter>
+      </receiver>
 
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBttXgl_XuznmFzulxGhNq9WUJRst17Nzk" />
+        android:value="AIzaSyBcB8G4B0X_gkbe624ncnnVrvqhBhDqj68" />
+
+      <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
       <activity
         android:name=".MainActivity"
