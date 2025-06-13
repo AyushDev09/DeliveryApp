@@ -27,15 +27,21 @@ This app allows users to:
 
 ---
 
+## 🛠️ Limitations
+
+- Google services setup requires your own API keys.
+- Currently uses mock data for products and orders.
+
+---
+
 ## 🛠️ Technical Stack & Requirements
 
 - React Native CLI (Not Expo)
 - Android only (no iOS support currently)
 - TypeScript recommended for better maintainability (project currently in JS, can be migrated)
 - Maps: `react-native-maps`
-- Real-time communication: Node.js backend with Socket.IO (or Firebase alternative)
-- Push Notifications: Firebase Cloud Messaging (`react-native-push-notification` recommended)
-- Permissions handling for background location tracking (Android)
+- Real-time communication: Node.js backend with Socket.IO
+- Push Notifications
 - State management: Zustand
 
 ---
@@ -47,4 +53,9 @@ This app allows users to:
    ```bash
    git clone <repo-url>
    cd your-project-folder
+
+2. **Running the app:**
+
+   ```bash
+   npx react-native run-android
 
