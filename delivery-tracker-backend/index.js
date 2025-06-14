@@ -14,7 +14,6 @@ io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
 
   socket.on('locationUpdate', (location) => {
-    // Broadcast to all clients (you could also target specific user IDs)
     socket.broadcast.emit('locationUpdate', location);
   });
 

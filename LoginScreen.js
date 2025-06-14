@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
       .then(userCredential => {
         setLoading(false);
         Alert.alert('Success', `Welcome back, ${userCredential.user.email}`);
-        navigation.replace('Products'); // Navigate after login
+        navigation.replace('Products'); 
       })
       .catch(error => {
         setLoading(false);
@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
       .then(userCredential => {
         setLoading(false);
         Alert.alert('Success', `Account created for ${userCredential.user.email}`);
-        navigation.replace('Products'); // Navigate after signup
+        navigation.replace('Products'); p
       })
       .catch(error => {
         setLoading(false);
@@ -128,37 +128,66 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f9fafd',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 36,
+    fontWeight: '700',
+    color: '#4e8ef7',
     marginBottom: 40,
-    fontWeight: 'bold',
-    color: '#333',
+    textAlign: 'center',
   },
   input: {
     width: '100%',
     height: 50,
-    backgroundColor: '#000000',
-    paddingHorizontal: 15,
-    borderRadius: 8,
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
     marginBottom: 20,
-    color: '#fff',
+    fontSize: 16,
+    color: '#333',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1,
   },
   button: {
     backgroundColor: '#4e8ef7',
     paddingVertical: 15,
-    width: '100%',
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
+    shadowColor: '#4e8ef7',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  buttonDisabled: {
+    backgroundColor: '#a0b9f9',
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
+  },
+  signUpButton: {
+    backgroundColor: '#34a853',
+    marginTop: 15,
+    paddingVertical: 15,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#34a853',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  signUpButtonDisabled: {
+    backgroundColor: '#8fcb8e',
   },
 });
+

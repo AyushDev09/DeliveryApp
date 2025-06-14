@@ -5,7 +5,7 @@ import Geolocation from 'react-native-geolocation-service';
 import io from 'socket.io-client';
 import { requestLocationPermissions } from './permissions';
 
-const SOCKET_SERVER_URL = 'http://192.168.1.7:3000';
+const SOCKET_SERVER_URL = 'http://IP:3000';
 
 const OrderTrackingScreen = () => {
   const [location, setLocation] = useState(null);

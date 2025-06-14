@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import io from 'socket.io-client';
 
-const SOCKET_SERVER_URL = 'http://192.168.1.7:3000';
+const SOCKET_SERVER_URL = 'http://IP:3000';
 
 const fallbackRegion = {
     latitude: 37.78825,

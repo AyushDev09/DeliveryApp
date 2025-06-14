@@ -13,9 +13,11 @@ import useStore from './store';
 import { useNavigation } from '@react-navigation/native';
 
 const products = [
-  { id: '1', name: 'Pizza', price: 12.99 },
-  { id: '2', name: 'Burger', price: 9.99 },
-  { id: '3', name: 'Sushi', price: 15.49 },
+  { id: '1', name: 'Pizza', price: 200 },
+  { id: '2', name: 'Burger', price: 150 },
+  { id: '3', name: 'Sushi', price: 500 },
+  { id: '4', name: 'Wrap', price: 80 },
+  { id: '5', name: 'Chicken', price: 300 },
 ];
 
 const ProductListScreen = () => {
@@ -24,12 +26,10 @@ const ProductListScreen = () => {
   const clearCart = useStore((state) => state.clearCart);
   const setOrder = useStore((state) => state.setOrder);
   const navigation = useNavigation();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
-  const messages = [
-    'Order Placed, Out for Delivery!',
-    'Order Delivered!',
-  ];
+  const messages = ['Order Placed, Out for Delivery!', 'Order Delivered!'];
 
   useEffect(() => {
     let interval;
@@ -42,13 +42,13 @@ const ProductListScreen = () => {
         if (messageIndex < messages.length) {
           setCurrentMessage(messages[messageIndex]);
         } else {
-          setModalVisible(false); // Close modal after all messages
+          setModalVisible(false); 
           clearInterval(interval);
         }
-      }, 5000); // Change message every 5 seconds
+      }, 5000); 
     }
 
-    return () => clearInterval(interval); // Cleanup on unmount or modal close
+    return () => clearInterval(interval);
   }, [modalVisible]);
 
   const placeOrder = () => {
@@ -62,11 +62,10 @@ const ProductListScreen = () => {
       return;
     }
 
-    // Save order in global state
     setOrder(items);
     clearCart();
 
-    // Show the modal after a 5-second delay
+
     setTimeout(() => {
       setModalVisible(true);
     }, 5000);
@@ -76,14 +75,14 @@ const ProductListScreen = () => {
       items
         .map(
           (item) =>
-            `${item.name} x${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`
+            `${item.name} x${item.quantity} = ₹${(item.price * item.quantity).toFixed(2)}`
         )
         .join('\n'),
       [
         {
           text: 'Track Order',
           onPress: () => {
-            setModalVisible(false); // Close modal when navigating
+            setModalVisible(false);
             navigation.navigate('TrackOrder');
           },
         },
@@ -94,11 +93,8 @@ const ProductListScreen = () => {
   const renderItem = ({ item }) => (
     <View style={styles.product}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.price}>${item.price.toFixed(2)}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => addToCart(item.id)}
-      >
+      <Text style={styles.price}>₹{item.price.toFixed(2)}</Text>
+      <TouchableOpacity style={styles.button} onPress={() => addToCart(item.id)}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
       {cart[item.id] ? <Text>Qty: {cart[item.id]}</Text> : null}
@@ -118,7 +114,6 @@ const ProductListScreen = () => {
         <Text style={styles.orderButtonText}>Place Order</Text>
       </TouchableOpacity>
 
-      {/* Floating Modal */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -140,66 +135,92 @@ export default ProductListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 30,
     backgroundColor: '#f9fafd',
   },
   product: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
     padding: 15,
     marginBottom: 15,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
   },
   name: {
-    fontSize: 20,
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#333',
     marginBottom: 5,
-    fontWeight: 'bold',
   },
   price: {
-    marginBottom: 10,
-    fontSize: 16,
-    color: '#333',
+    fontSize: 18,
+    color: '#555',
+    marginBottom: 12,
   },
   button: {
     backgroundColor: '#4e8ef7',
-    paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: 12,
+    paddingVertical: 12,
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 8,
+    shadowColor: '#4e8ef7',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
   },
   buttonText: {
     color: '#fff',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  qtyText: {
+    fontSize: 16,
+    color: '#4e8ef7',
     fontWeight: '600',
   },
   orderButton: {
     backgroundColor: '#34a853',
-    paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 12,
+    paddingVertical: 18,
     alignItems: 'center',
-    marginTop: 'auto',
+    marginTop: 15,
+    shadowColor: '#34a853',
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
   orderButtonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
   },
   modalOverlay: {
     flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
   modalContent: {
     backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
+    padding: 30,
+    borderRadius: 16,
     alignItems: 'center',
-    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 10,
   },
   modalText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#4e8ef7',
   },
 });
